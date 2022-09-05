@@ -4,7 +4,7 @@ import ShowTodo from './ShowTodo';
 
 const App: FC = () => {
 
-  
+
 
   const [todo, setTodo] = useState<string>("")
   const [timeline, setTimeline] = useState<number>(0)
@@ -13,43 +13,58 @@ const App: FC = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     if (e.target.name === 'todo') {
       setTodo(e.target.value)
+
     } else {
       setTimeline(Number(e.target.value))
     }
 
   }
 
+  const newTodo = { todo, timeline }
 
   const handleSubmit = (): void => {
-    const newTodo = { todo, timeline }
     setAllTodo([...allTodo, newTodo])
-    console.log(allTodo)
+    setTimeline(0)
+    setTodo("");
   }
 
 
   return (
     <div>
-      <input
-        className='border border-amber-600 focus outline-none'
-        type="text"
-        name="todo"
-        onChange={handleChange}
-      />
-      <input
-        className='border border-amber-600 focus outline-none'
-        type="number"
-        name="day"
-        value={timeline}
-        onChange={handleChange}
-      />
-      <button onClick={handleSubmit}>ADD</button>
-      {
-        allTodo.map((sTodo: ITodo, key: number) => {
-          return (
-            <ShowTodo key={key} todo={sTodo} />
-          )
-        })
-      }
+      <div className='bg-lime-400 h-[30vh] flex items-center'>
+        <div className='flex flex-col mx-auto w-1/4 gap-2 '>
+          <input
+            className='border border-slate-500 focus outline-none py-1 px-2 rounded-md '
+            type="text"
+            name="todo"
+            placeholder='Add task...'
+            required
+            value={todo}
+            onChange={handleChange}
+          />
+          <input
+            className='border border-slate-500 focus outline-none py-1 px-2 rounded-md'
+            type="number"
+            name="day"
+            required
+            value={timeline}
+            onChange={handleChange}
+          />
+          <button
+            className='py-1 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75'
+            onClick={handleSubmit}>ADD</button>
+
+        </div>
+      </div>
+      <div>
+        {
+          allTodo.map((sTodo: ITodo, key: number) => {
+            return (
+              <ShowTodo key={key} todo={sTodo} />
+            )
+          })
+        }
+      </div>
     </div>
   );
 };
